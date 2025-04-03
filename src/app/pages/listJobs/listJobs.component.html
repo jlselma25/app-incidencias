@@ -1,0 +1,127 @@
+
+<style>
+    .mi-div {
+      background-color: #85949e; /* Azul */
+      padding: 20px;
+      color: white; /* Color del texto */
+      width: 100vw;  /* Ancho de 300 píxeles */
+      height: 75px;
+    }
+  </style>
+
+
+<div class="flex mi-div">  
+       
+        <div class="mt-2 ml-10 mr-5" items-center>
+             <label >       
+                <span>Desde Fecha</span>
+            </label>
+        </div>
+       
+        <div>
+            <input type="date" class=" input input-warning w-full"
+            [value]="fechaDesce"
+            #txtDateFrom       
+             />
+        </div>
+
+        <div class="mt-2 ml-10 mr-5"> 
+            <label >       
+                <span>Hasta Fecha</span>
+             </label></div>
+            <div>
+                <input type="date" class="input input-warning w-full"
+                [value]="fechaDesce"
+                 #txtDateTo         
+             />
+        </div>
+
+        <button class="btn btn-info  ml-16 mr-15 w-20" (click)="filter(txtDateFrom.value, txtDateTo.value)">Filtrar</button>    
+    
+</div>
+
+
+<div class="overflow-x-auto">
+    <table class="table table-zebra">
+      <!-- head -->
+      <thead>
+        <tr>         
+            <th></th>
+          @for (columna of columnas; track $index) {
+            @if (columna.nombre != 'Accion') {
+                <th>{{ columna.nombre }}</th>
+            }@else {
+                <th style="text-align: center;">{{ columna.nombre }}</th>
+            }            
+          }
+         
+        </tr>
+      </thead>
+      <tbody>
+       
+            @if (isLoading()) {
+               
+                <tr>
+                    <td colspan="8" class="text-center">
+                        <span class="loading loading-spinner loading-lg  text-warning"></span>
+                    </td>
+                </tr>
+    
+            }
+     
+        
+       
+        @if (!isLoading()){
+
+            @for (job of jobs(); track $index) {
+                @if ($index % 2 !== 0 ) {
+                    <tr>
+                        <th></th>
+                        <td>{{ job.fecha }}</td>
+                        <td >{{ job.empresa }}</td>
+                        <td>{{ job.job }}</td>                    
+                        <td >{{ job.estado }}</td>
+                        <td style="text-align: center;">
+                            <a  class="btn btn-ghost text-lg" >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M9 13a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3a3 3 0 0 0-3 3m11 6.59V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12c.45 0 .85-.15 1.19-.4l-4.43-4.43c-.8.52-1.76.83-2.76.83a5 5 0 0 1-5-5a5 5 0 0 1 5-5a5 5 0 0 1 5 5c0 1-.31 1.96-.83 2.75z"/></svg>
+                            </a>
+                            <a  class="btn btn-ghost text-lg" [routerLink] ="[`/dashboard/updateJob/${job.id}`]" [routerLinkActive] ="'active'"  [routerLinkActiveOptions]="{ exact: true}">
+                                <i class="fa-regular fa-pen-to-square text-yellow-200"></i>
+                            </a>
+                            <a  class="btn btn-ghost text-lg" (click)="delete(job.id)" >
+                                <i class="fa-sharp fa-regular fa-circle-xmark text-red-300"></i>
+                            </a>
+    
+                        </td>
+                    </tr>
+                }@else{
+                    <tr class="hover:bg-base-300">
+                        <th></th>
+                        <td>{{ job.fecha }}</td>
+                        <td>{{ job.empresa }}</td>
+                        <td>{{ job.job }}</td>                  
+                        <td>{{ job.estado }}</td>
+                        <td style="text-align: center;"> 
+    
+                            <a  [routerLink]="['/dashboard/informationJob/', job.id]" class="btn btn-ghost text-lg" >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M9 13a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3a3 3 0 0 0-3 3m11 6.59V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12c.45 0 .85-.15 1.19-.4l-4.43-4.43c-.8.52-1.76.83-2.76.83a5 5 0 0 1-5-5a5 5 0 0 1 5-5a5 5 0 0 1 5 5c0 1-.31 1.96-.83 2.75z"/></svg>
+                              
+                            </a>
+                            <a   class="btn btn-ghost text-lg"  [routerLink] ="[`/dashboard/addJobs/${job.id}`]" [routerLinkActive] ="'active'"  [routerLinkActiveOptions]="{ exact: true}">
+                                <i class="fa-regular fa-pen-to-square text-yellow-200"></i>
+                            </a>
+                            <a  class="btn btn-ghost text-lg" (click)="delete(job.id)">
+                                <i class="fa-sharp fa-regular fa-circle-xmark text-red-300"></i>
+                            </a>
+                        </td>
+                    </tr>
+    
+                }
+            }
+
+        }
+        
+      
+      </tbody>
+    </table>
+  </div>

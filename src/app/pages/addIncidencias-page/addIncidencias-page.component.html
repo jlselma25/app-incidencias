@@ -1,0 +1,88 @@
+
+
+
+
+<style>
+select option {
+  background-color: #333;  /* Fondo oscuro de las opciones */
+  color: white;            /* Color blanco para el texto */
+}
+
+select {
+  border: 1px solid #eff159; /* Cambia el color y grosor del borde */
+  padding: 5px;              /* Un pequeño relleno para que el borde no se vea tan cerca del texto */
+  border-radius: 6px;        /* Opcional: bordes redondeados */
+}
+</style>
+
+
+  <div class="min-h-screen flex items-center justify-center">
+
+ 
+    <div class="p-6 bg-black rounded-lg shadow-lg w-120">  
+     
+      <div class="mt-5">
+        <label>       
+          <span>{{ lblDate }}</span>
+        </label>
+        <input type="date" class=" mt-2 input input-warning w-full" [value]="fechaDesce"
+          #txtFecha
+        
+        />
+      </div>  
+     
+      <div class="mt-5">
+        <label>       
+          <span>{{ lblMotivo }}</span>
+        </label>       
+        <textarea class="mt-2 input input-warning w-full h-32 resize-y"
+          #txtMotivo 
+        ></textarea>
+      </div>     
+
+    
+      <div class="mt-5">
+        <label >       
+          <span>{{ lblRespuesta }}</span>
+        </label>    
+
+        <textarea class="mt-2 input input-warning w-full h-32 resize-y"
+           #txtRespuesta      
+        >{{ respuesta()}}
+        </textarea>
+
+      </div>                
+    
+      <div class="mt-5 mb-5">
+        <label >       
+          <span>{{ lblTienda }}</span>
+        </label>    
+
+        <select   [(ngModel)]="selectedTienda" class=" w-2/5 ml-5 border rounded-xl text-white-800 focus:outline-none focus:border-indigo-300 pl-4 h-10 bg-base-100">
+                
+          <option  class="opcion-blanca" value="">Seleccione</option>
+            @for (tienda of tiendas(); track $index) {
+                <option class="bg-white" [value]="tienda.numero">{{ tienda.nombre }}</option>
+    
+            }
+       </select>
+      </div>        
+      
+      <button class="btn btn-info mt-4 ml-26 mr-15 w-20" (click)="add(txtMotivo.value,txtRespuesta.value, txtFecha.value)"
+      [routerLink] = "[resultado() ? [''] : null]" [routerLinkActive] ="'active'"  [routerLinkActiveOptions]="{ exact: true}"
+      >
+       
+        Agregar
+      </button>
+      <button class="btn btn-info mt-4 w-20"        
+          [routerLink] ="['']" [routerLinkActive] ="'active'"  [routerLinkActiveOptions]="{ exact: true}" >
+        Cancelar
+      </button>
+  
+    </div>
+  </div>
+  
+
+
+
+

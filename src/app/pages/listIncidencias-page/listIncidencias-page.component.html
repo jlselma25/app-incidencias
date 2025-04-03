@@ -1,0 +1,103 @@
+
+<style>
+    .mi-div {
+      background-color: #85949e; /* Azul */
+      padding: 20px;
+      color: white; /* Color del texto */
+      width: 100vw;  /* Ancho de 300 píxeles */
+      height: 75px;
+    }
+  </style>
+
+
+<div class="flex mi-div">  
+       
+        <div class="mt-2 ml-10 mr-5" items-center>
+             <label >       
+                <span>Desde Fecha</span>
+            </label>
+        </div>
+       
+        <div>
+            <input type="date" class=" input input-warning w-full"
+            [value]="fechaDesce"
+            #txtDateFrom       
+             />
+        </div>
+
+        <div class="mt-2 ml-10 mr-5"> 
+            <label >       
+                <span>Hasta Fecha</span>
+             </label></div>
+            <div>
+                <input type="date" class="input input-warning w-full"
+                [value]="fechaDesce"
+                 #txtDateTo         
+             />
+        </div>
+
+        <button class="btn btn-info  ml-16 mr-15 w-20" (click)="filter(txtDateFrom.value, txtDateTo.value)">Filtrar</button>    
+    
+</div>
+
+
+<div class="overflow-x-auto">
+    <table class="table table-zebra">
+      <!-- head -->
+      <thead>
+        <tr>         
+            <th></th>
+          @for (columna of columnas; track $index) {
+            @if (columna.nombre != 'Accion') {
+                <th>{{ columna.nombre }}</th>
+            }@else {
+                <th style="text-align: center;">{{ columna.nombre }}</th>
+            }            
+          }
+         
+        </tr>
+      </thead>
+      <tbody>
+       
+
+        @for (incidencia of incidencias(); track $index) {
+            @if ($index % 2 !== 0 ) {
+                <tr>
+                    <th></th>
+                    <td>{{ incidencia.fecha }}</td>
+                    <td>{{ incidencia.motivo }}</td>
+                    <td>{{ incidencia.respuesta }}</td>
+                    <td >{{ incidencia.tienda }}</td>
+                    <td style="text-align: center;">
+                        <a  class="btn btn-ghost text-lg" [routerLink] ="[`/dashboard/updateIncidencias/${incidencia.id}`]" [routerLinkActive] ="'active'"  [routerLinkActiveOptions]="{ exact: true}">
+                            <i class="fa-regular fa-pen-to-square text-yellow-200"></i>
+                        </a>
+                        <a  class="btn btn-ghost text-lg" (click)="delete(incidencia.id)">
+                            <i class="fa-sharp fa-regular fa-circle-xmark text-red-300"></i>
+                        </a>
+
+                    </td>
+                </tr>
+            }@else{
+                <tr class="hover:bg-base-300">
+                    <th></th>
+                    <td>{{ incidencia.fecha }}</td>
+                    <td>{{ incidencia.motivo }}</td>
+                    <td>{{ incidencia.respuesta }}</td>
+                    <td>{{ incidencia.tienda }}</td>
+                    <td style="text-align: center;"> 
+                        <a   class="btn btn-ghost text-lg"  [routerLink] ="[`/dashboard/updateIncidencias/${incidencia.id}`]" [routerLinkActive] ="'active'"  [routerLinkActiveOptions]="{ exact: true}">
+                            <i class="fa-regular fa-pen-to-square text-yellow-200"></i>
+                        </a>
+                        <a  class="btn btn-ghost text-lg" (click)="delete(incidencia.id)">
+                            <i class="fa-sharp fa-regular fa-circle-xmark text-red-300"></i>
+                        </a>
+                    </td>
+                </tr>
+
+            }
+        }
+      
+      </tbody>
+    </table>
+  </div>
